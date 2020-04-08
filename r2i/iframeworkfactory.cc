@@ -19,6 +19,7 @@
 #include "tensorflow/frameworkfactory.h"
 #include "tensorrt/frameworkfactory.h"
 #include "tflite/frameworkfactory.h"
+#include "edgetpu/edgetpuframeworkfactory.h"
 
 namespace r2i {
 
@@ -37,13 +38,21 @@ MakeTensorflowFactory (RuntimeError &error) {
 }
 #endif // HAVE_TENSORFLOW
 
-#ifdef HAVE_TFLITE
+#if defined(HAVE_TFLITE) && !defined(HAVE_EDGETPU)
 static std::unique_ptr<IFrameworkFactory>
 MakeTfLiteFactory (RuntimeError &error) {
   return std::unique_ptr<tflite::FrameworkFactory> (new
          tflite::FrameworkFactory);
 }
 #endif // HAVE_TFLITE
+
+#if defined(HAVE_TFLITE) && defined(HAVE_EDGETPU)
+static std::unique_ptr<IFrameworkFactory>
+MakeEdgeTPUFactory (RuntimeError &error) {
+  return std::unique_ptr<edgetpu::EdgeTPUFrameworkFactory> (new
+         edgetpu::EdgeTPUFrameworkFactory);
+}
+#endif // HAVE_EDGETPU
 
 #ifdef HAVE_TENSORRT
 static std::unique_ptr<IFrameworkFactory>
@@ -65,9 +74,13 @@ const std::unordered_map<int, MakeFactory> frameworks ({
   {FrameworkCode::TENSORFLOW, MakeTensorflowFactory},
 #endif //HAVE_TENSORFLOW
 
-#ifdef HAVE_TFLITE
+#if defined(HAVE_TFLITE) && !defined(HAVE_EDGETPU)
   {FrameworkCode::TFLITE, MakeTfLiteFactory},
 #endif //HAVE_TFLITE
+
+#if defined(HAVE_TFLITE) && defined(HAVE_EDGETPU)
+  {FrameworkCode::EDGETPU, MakeEdgeTPUFactory},
+#endif //HAVE_EDGETPU
 
 #ifdef HAVE_TENSORRT
   {FrameworkCode::TENSORRT, MakeTensorRTFactory},

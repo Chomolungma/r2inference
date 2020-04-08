@@ -50,6 +50,9 @@ RR_CHECK_FEATURE_LIB(TENSORFLOW, TensorFlow Installation,
                      tensorflow, TF_Version, tensorflow/c/c_api.h, no)
 
 AC_LANG_PUSH([C++])
+RR_CHECK_FEATURE_LIB(EDGETPU, EdgeTPU with TensorFlow lite Installation,
+                     :libedgetpu.so.1.0, edgetpu_version, edgetpu.h, no)
+
 RR_CHECK_FEATURE_LIB(TFLITE, TensorFlow lite Installation,
                      tensorflow-lite, TfLiteTypeGetName, tensorflow/lite/model.h, no)
 
@@ -79,6 +82,7 @@ examples/r2i/tensorflow/Makefile
 examples/r2i/tensorrt/Makefile
 examples/r2i/tflite/Makefile
 r2i/Makefile
+r2i/edgetpu/Makefile
 r2i/ncsdk/Makefile
 r2i/tensorflow/Makefile
 r2i/tensorrt/Makefile

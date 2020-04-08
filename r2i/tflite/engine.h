@@ -41,7 +41,7 @@ class Engine : public IEngine {
 
   ~Engine ();
 
- private:
+ protected:
   enum State {
     STARTED,
     STOPPED
