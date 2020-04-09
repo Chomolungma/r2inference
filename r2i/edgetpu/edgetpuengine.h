@@ -17,6 +17,12 @@
 #include <r2i/tflite/engine.h>
 #include <r2i/tflite/model.h>
 
+// TODO: Verify that all the includes are still valid
+#include <tensorflow/lite/model.h>
+#include <tensorflow/lite/kernels/register.h>
+#include <tensorflow/lite/string_util.h>
+#include <edgetpu.h>
+
 namespace r2i {
 namespace edgetpu {
 
@@ -27,6 +33,10 @@ class EdgeTPUEngine : public r2i::tflite::Engine {
   r2i::RuntimeError Start () override;
 
   ~EdgeTPUEngine ();
+
+ private:
+  std::unique_ptr<::tflite::Interpreter> BuildEdgeTpuInterpreter(
+    const ::tflite::FlatBufferModel &model, ::edgetpu::EdgeTpuContext *context);
 };
 
 }
