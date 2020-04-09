@@ -38,7 +38,7 @@ libedgetpu_la_CXXFLAGS =                    \
 libedgetpu_la_LIBADD =                      \
     $(RR_LIBS)                              \
     $(TFLITE_LIBS)                          \
-	$(EDGETPU_LIB)                          \
+	$(EDGETPU_LIBS)                         \
     $(CODE_COVERAGE_LIBS)
 
 tensorflowliteedgetpuinclude_HEADERS =      \
